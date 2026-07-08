@@ -84,7 +84,6 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* TOP HEADER WITH HAMBURGER */
         .top-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px 20px; background: rgba(0,0,0,0.2); backdrop-filter: blur(20px);
@@ -101,10 +100,8 @@
         .menu-btn:active { transform: scale(0.95); }
         
         .header-title { font-size: 20px; font-weight: 700; color: white; }
-        
         .header-right { width: 45px; }
 
-        /* SIDEBAR */
         .sidebar-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
@@ -120,6 +117,7 @@
             backdrop-filter: blur(30px); border-right: 2px solid rgba(255,255,255,0.2);
             z-index: 999; transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            overflow-y: auto;
         }
         .sidebar.active { left: 0; }
         
@@ -139,16 +137,16 @@
         .sidebar-user-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
         .sidebar-user-email { font-size: 13px; color: rgba(255,255,255,0.7); }
         
-        .sidebar-wallet {
+        .sidebar-coins {
             margin: 20px 25px; padding: 20px;
             background: linear-gradient(135deg, var(--candy-yellow) 0%, var(--candy-orange) 100%);
             border-radius: 18px; text-align: center;
             box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
         }
-        .sidebar-wallet-label { font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 8px; font-weight: 600; }
-        .sidebar-wallet-amount { font-size: 32px; font-weight: 700; }
+        .sidebar-coins-label { font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 8px; font-weight: 600; }
+        .sidebar-coins-amount { font-size: 32px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; }
         
-        .sidebar-menu { flex: 1; padding: 20px 0; overflow-y: auto; }
+        .sidebar-menu { flex: 1; padding: 20px 0; }
         
         .sidebar-item {
             display: flex; align-items: center; gap: 16px;
@@ -170,7 +168,6 @@
         .sidebar-item.logout { color: var(--candy-red); margin-top: 20px; border-top: 2px solid rgba(255,255,255,0.1); padding-top: 20px; }
         .sidebar-item.logout .sidebar-item-icon { color: var(--candy-red); }
 
-        /* AUTH SCREEN */
         #auth-screen { align-items: center; justify-content: center; padding: 30px 20px; }
         .auth-container { width: 100%; max-width: 420px; padding: 40px 30px; animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
         
@@ -238,23 +235,34 @@
         .divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 35%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); }
         .divider::before { left: 0; } .divider::after { right: 0; }
 
-        /* HOME SCREEN */
         #home-screen { padding: 0; }
-        .home-content { padding: 20px; flex: 1; overflow-y: auto; }
+        .home-content { padding: 20px; flex: 1; overflow-y: auto; padding-bottom: 30px; }
         
-        .wallet-card {
+        .daily-reward {
+            background: linear-gradient(135deg, var(--candy-purple) 0%, var(--candy-blue) 100%);
+            border-radius: 24px; padding: 25px; margin-bottom: 20px; text-align: center;
+            box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4); position: relative; overflow: hidden;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .daily-reward:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(108, 92, 231, 0.5); }
+        .daily-reward.claimed { opacity: 0.6; cursor: not-allowed; }
+        .daily-reward h3 { font-size: 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .daily-reward p { font-size: 14px; color: rgba(255,255,255,0.8); }
+        
+        .coins-card {
             background: linear-gradient(135deg, var(--candy-yellow) 0%, var(--candy-orange) 100%);
             border-radius: 28px; padding: 35px 30px; text-align: center; margin-bottom: 25px;
             box-shadow: 0 12px 40px rgba(255, 107, 53, 0.4), inset 0 2px 0 rgba(255,255,255,0.3);
             position: relative; overflow: hidden;
         }
-        .wallet-card::before {
+        .coins-card::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%); animation: shimmer 3s ease infinite;
         }
         @keyframes shimmer { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, 30px); } }
-        .wallet-card h3 { color: rgba(255,255,255,0.9); font-size: 15px; margin-bottom: 12px; font-weight: 600; position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .wallet-card .amount { font-size: 56px; font-weight: 700; color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.2); position: relative; }
+        .coins-card h3 { color: rgba(255,255,255,0.9); font-size: 15px; margin-bottom: 12px; font-weight: 600; position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .coins-card .amount { font-size: 56px; font-weight: 700; color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.2); position: relative; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .coin-icon { font-size: 48px; }
 
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
         .stat-card {
@@ -277,7 +285,6 @@
         }
         .play-btn:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(255, 107, 157, 0.5); }
 
-        /* GAME SCREEN - FULL SCREEN */
         #game-screen { padding: 0; }
         #game-hud {
             width: 100%; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
@@ -288,9 +295,65 @@
         .hud-item i { color: var(--candy-yellow); }
         .hud-menu-btn { width: 36px; height: 36px; font-size: 16px; }
         
+        .powerups-bar {
+            display: flex; gap: 10px; padding: 10px 20px; background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .powerup-btn {
+            width: 50px; height: 50px; border-radius: 12px;
+            background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease; font-size: 24px; position: relative;
+        }
+        .powerup-btn:hover { background: rgba(255,255,255,0.25); border-color: var(--candy-yellow); }
+        .powerup-btn.active { background: var(--candy-yellow); border-color: var(--candy-orange); }
+        .powerup-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+        .powerup-count {
+            position: absolute; top: -5px; right: -5px;
+            background: var(--candy-red); color: white; font-size: 12px; font-weight: 700;
+            width: 22px; height: 22px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
         #game-canvas { width: 100%; flex: 1; display: block; touch-action: none; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
 
-        /* LEADERBOARD SCREEN */
+        #shop-screen { padding: 0; }
+        .shop-content { padding: 20px; flex: 1; overflow-y: auto; }
+        .shop-header { text-align: center; margin-bottom: 30px; }
+        .shop-header h2 { color: var(--candy-yellow); font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+        .shop-header p { color: rgba(255,255,255,0.8); font-size: 15px; }
+        
+        .shop-tabs {
+            display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px;
+        }
+        .shop-tab {
+            padding: 12px 24px; border-radius: 16px;
+            background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.2);
+            cursor: pointer; transition: all 0.3s ease; font-weight: 600; white-space: nowrap;
+        }
+        .shop-tab.active { background: var(--candy-yellow); color: #000; border-color: var(--candy-orange); }
+        
+        .shop-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;
+        }
+        .shop-item {
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.2); border-radius: 20px;
+            padding: 20px; text-align: center; transition: all 0.3s ease; cursor: pointer;
+        }
+        .shop-item:hover { transform: translateY(-5px); border-color: var(--candy-yellow); box-shadow: 0 12px 32px rgba(255, 217, 61, 0.3); }
+        .shop-item-icon { font-size: 48px; margin-bottom: 12px; }
+        .shop-item-name { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+        .shop-item-desc { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+        .shop-item-price {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 16px; border-radius: 12px;
+            background: linear-gradient(135deg, var(--candy-yellow) 0%, var(--candy-orange) 100%);
+            color: #000; font-weight: 700; font-size: 14px;
+        }
+        .shop-item.owned { opacity: 0.6; }
+        .shop-item.owned .shop-item-price { background: var(--candy-green); }
+
         #leaderboard-screen { padding: 0; }
         .leaderboard-content { padding: 20px; flex: 1; overflow-y: auto; }
         .leaderboard-header { text-align: center; margin-bottom: 30px; }
@@ -317,7 +380,6 @@
         .player-level i { color: var(--candy-yellow); }
         .player-score { font-size: 24px; font-weight: 700; color: var(--candy-green); }
 
-        /* PROFILE SCREEN */
         #profile-screen { padding: 0; }
         .profile-content { padding: 20px; flex: 1; overflow-y: auto; }
         .profile-header { text-align: center; margin-bottom: 30px; padding-top: 20px; }
@@ -343,7 +405,22 @@
         .profile-stat .value { font-size: 32px; font-weight: 700; color: var(--candy-yellow); margin-bottom: 8px; }
         .profile-stat .label { color: rgba(255,255,255,0.8); font-size: 13px; font-weight: 600; }
 
-        /* OVERLAYS */
+        #achievements-screen { padding: 0; }
+        .achievements-content { padding: 20px; flex: 1; overflow-y: auto; }
+        .achievements-header { text-align: center; margin-bottom: 30px; }
+        .achievements-header h2 { color: var(--candy-yellow); font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+        .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+        .achievement {
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.2); border-radius: 20px;
+            padding: 20px; text-align: center; transition: all 0.3s ease;
+        }
+        .achievement.unlocked { border-color: var(--candy-yellow); background: linear-gradient(135deg, rgba(255,217,61,0.2) 0%, rgba(255,107,53,0.2) 100%); }
+        .achievement.locked { opacity: 0.5; }
+        .achievement-icon { font-size: 48px; margin-bottom: 12px; }
+        .achievement-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+        .achievement-desc { font-size: 11px; color: rgba(255,255,255,0.7); }
+
         .overlay {
             display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
@@ -358,7 +435,6 @@
         }
         .overlay-content h2 { color: var(--candy-red); font-size: 36px; font-weight: 700; margin-bottom: 20px; }
 
-        /* TOAST */
         #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
         .toast {
             background: rgba(255,255,255,0.2); backdrop-filter: blur(20px); color: white;
@@ -368,11 +444,12 @@
         }
         .toast.gold { border-color: var(--candy-yellow); color: var(--candy-yellow); }
         .toast.red { border-color: var(--candy-red); color: var(--candy-red); }
+        .toast.green { border-color: var(--candy-green); color: var(--candy-green); }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes fadeOut { to { opacity: 0; transform: translateY(-30px); } }
 
         @media (max-width: 480px) {
-            .wallet-card .amount { font-size: 48px; }
+            .coins-card .amount { font-size: 48px; }
             .stat-card .value { font-size: 32px; }
             .sidebar { width: 280px; }
         }
@@ -384,7 +461,6 @@
     <div class="bg-animation"></div>
     <div id="toast-container"></div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="UI.closeSidebar()"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -394,9 +470,9 @@
                 <div class="sidebar-user-email" id="sidebar-email">player@email.com</div>
             </div>
         </div>
-        <div class="sidebar-wallet">
-            <div class="sidebar-wallet-label"><i class="fas fa-wallet"></i> Wallet Balance</div>
-            <div class="sidebar-wallet-amount">₹<span id="sidebar-wallet">0.00</span></div>
+        <div class="sidebar-coins">
+            <div class="sidebar-coins-label"><i class="fas fa-coins"></i> Your Coins</div>
+            <div class="sidebar-coins-amount"><i class="fas fa-coins" style="font-size: 28px;"></i><span id="sidebar-coins">0</span></div>
         </div>
         <div class="sidebar-menu">
             <div class="sidebar-item active" onclick="UI.navigateTo('home-screen')">
@@ -406,6 +482,14 @@
             <div class="sidebar-item" onclick="UI.navigateTo('game-screen')">
                 <div class="sidebar-item-icon"><i class="fas fa-gamepad"></i></div>
                 <div>Play Game</div>
+            </div>
+            <div class="sidebar-item" onclick="UI.navigateTo('shop-screen')">
+                <div class="sidebar-item-icon"><i class="fas fa-store"></i></div>
+                <div>Shop</div>
+            </div>
+            <div class="sidebar-item" onclick="UI.navigateTo('achievements-screen')">
+                <div class="sidebar-item-icon"><i class="fas fa-medal"></i></div>
+                <div>Achievements</div>
             </div>
             <div class="sidebar-item" onclick="UI.navigateTo('leaderboard-screen')">
                 <div class="sidebar-item-icon"><i class="fas fa-trophy"></i></div>
@@ -422,7 +506,6 @@
         </div>
     </div>
 
-    <!-- AUTH SCREEN -->
     <div id="auth-screen" class="screen active">
         <div class="auth-container glass">
             <div class="logo">
@@ -449,7 +532,6 @@
         </div>
     </div>
 
-    <!-- HOME SCREEN -->
     <div id="home-screen" class="screen">
         <div class="top-header">
             <div class="menu-btn" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></div>
@@ -457,9 +539,13 @@
             <div class="header-right"></div>
         </div>
         <div class="home-content">
-            <div class="wallet-card">
-                <h3><i class="fas fa-wallet"></i> Wallet Balance</h3>
-                <div class="amount">₹<span id="home-wallet">0.00</span></div>
+            <div class="daily-reward" id="daily-reward" onclick="Shop.claimDailyReward()">
+                <h3><i class="fas fa-gift"></i> Daily Reward</h3>
+                <p id="daily-reward-text">Claim your free 50 coins!</p>
+            </div>
+            <div class="coins-card">
+                <h3><i class="fas fa-coins"></i> Your Coins</h3>
+                <div class="amount"><i class="fas fa-coins coin-icon"></i><span id="home-coins">0</span></div>
             </div>
             <div class="stats-grid">
                 <div class="stat-card"><div class="icon"><i class="fas fa-trophy"></i></div><div class="value" id="home-highscore">0</div><div class="label">High Score</div></div>
@@ -469,7 +555,6 @@
         </div>
     </div>
 
-    <!-- GAME SCREEN -->
     <div id="game-screen" class="screen">
         <div id="game-hud">
             <div class="menu-btn hud-menu-btn" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></div>
@@ -477,10 +562,65 @@
             <div class="hud-item" id="level-display"><i class="fas fa-star"></i> LVL 1</div>
             <div class="hud-item"><i class="fas fa-heart" style="color: var(--candy-red);"></i><span id="lives">3</span></div>
         </div>
+        <div class="powerups-bar">
+            <div class="powerup-btn" id="shield-btn" onclick="Game.activatePowerup('shield')" title="Shield">
+                <i class="fas fa-shield-alt"></i>
+                <div class="powerup-count" id="shield-count">0</div>
+            </div>
+            <div class="powerup-btn" id="magnet-btn" onclick="Game.activatePowerup('magnet')" title="Magnet">
+                <i class="fas fa-magnet"></i>
+                <div class="powerup-count" id="magnet-count">0</div>
+            </div>
+            <div class="powerup-btn" id="double-btn" onclick="Game.activatePowerup('double')" title="Double Points">
+                <i class="fas fa-star"></i>
+                <div class="powerup-count" id="double-count">0</div>
+            </div>
+            <div class="powerup-btn" id="slow-btn" onclick="Game.activatePowerup('slow')" title="Slow Motion">
+                <i class="fas fa-clock"></i>
+                <div class="powerup-count" id="slow-count">0</div>
+            </div>
+        </div>
         <canvas id="game-canvas"></canvas>
     </div>
 
-    <!-- LEADERBOARD SCREEN -->
+    <div id="shop-screen" class="screen">
+        <div class="top-header">
+            <div class="menu-btn" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></div>
+            <div class="header-title">Shop</div>
+            <div class="header-right"></div>
+        </div>
+        <div class="shop-content">
+            <div class="shop-header">
+                <h2><i class="fas fa-store"></i> Shop</h2>
+                <p>Spend your coins wisely!</p>
+            </div>
+            <div class="coins-card" style="margin-bottom: 25px;">
+                <h3><i class="fas fa-coins"></i> Your Balance</h3>
+                <div class="amount"><i class="fas fa-coins coin-icon"></i><span id="shop-coins">0</span></div>
+            </div>
+            <div class="shop-tabs">
+                <div class="shop-tab active" onclick="Shop.showTab('powerups')">Power-ups</div>
+                <div class="shop-tab" onclick="Shop.showTab('skins')">Skins</div>
+                <div class="shop-tab" onclick="Shop.showTab('themes')">Themes</div>
+            </div>
+            <div class="shop-grid" id="shop-grid"></div>
+        </div>
+    </div>
+
+    <div id="achievements-screen" class="screen">
+        <div class="top-header">
+            <div class="menu-btn" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></div>
+            <div class="header-title">Achievements</div>
+            <div class="header-right"></div>
+        </div>
+        <div class="achievements-content">
+            <div class="achievements-header">
+                <h2><i class="fas fa-medal"></i> Achievements</h2>
+            </div>
+            <div class="achievements-grid" id="achievements-grid"></div>
+        </div>
+    </div>
+
     <div id="leaderboard-screen" class="screen">
         <div class="top-header">
             <div class="menu-btn" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></div>
@@ -493,7 +633,6 @@
         </div>
     </div>
 
-    <!-- PROFILE SCREEN -->
     <div id="profile-screen" class="screen">
         <div class="top-header">
             <div class="menu-btn" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></div>
@@ -507,7 +646,7 @@
                 <p id="profile-email">player@email.com</p>
             </div>
             <div class="profile-stats">
-                <div class="profile-stat"><div class="value" id="profile-wallet">₹0</div><div class="label">Wallet</div></div>
+                <div class="profile-stat"><div class="value" id="profile-coins">0</div><div class="label">Coins</div></div>
                 <div class="profile-stat"><div class="value" id="profile-highscore">0</div><div class="label">Best</div></div>
                 <div class="profile-stat"><div class="value" id="profile-games">0</div><div class="label">Games</div></div>
             </div>
@@ -515,13 +654,13 @@
         </div>
     </div>
 
-    <!-- GAME OVER OVERLAY -->
     <div id="game-over-overlay" class="overlay">
         <div class="overlay-content glass">
             <h2><i class="fas fa-skull-crossbones"></i> Game Over</h2>
             <p style="font-size: 17px; color: rgba(255,255,255,0.8); margin-bottom: 10px; font-weight: 500;">Final Score</p>
             <p style="font-size: 52px; font-weight: 700; color: var(--candy-yellow); margin: 20px 0;" id="final-score">0</p>
-            <button class="btn btn-primary" id="revive-btn" onclick="Game.revive()"><i class="fas fa-ad"></i> Watch Ad (+₹10)</button>
+            <p style="font-size: 20px; color: var(--candy-green); margin-bottom: 20px;"><i class="fas fa-coins"></i> <span id="coins-earned">0</span> Coins Earned</p>
+            <button class="btn btn-primary" id="revive-btn" onclick="Game.revive()"><i class="fas fa-ad"></i> Watch Ad (+50 Coins)</button>
             <button class="btn btn-text" onclick="Game.home()"><i class="fas fa-home"></i> Back to Home</button>
         </div>
     </div>
@@ -558,8 +697,13 @@ const Auth = {
         try {
             if (this.isRegisterMode) {
                 const cred = await auth.createUserWithEmailAndPassword(email, password);
-                await db.collection('users').doc(cred.user.uid).set({ email, wallet: 0, highScore: 0, gamesPlayed: 0, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-                UI.showToast('Account created!', 'gold');
+                await db.collection('users').doc(cred.user.uid).set({ 
+                    email, coins: 100, highScore: 0, gamesPlayed: 0,
+                    inventory: { shield: 2, magnet: 1, double: 1, slow: 1 },
+                    achievements: [], lastDailyReward: null,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp() 
+                });
+                UI.showToast('Account created! +100 bonus coins!', 'gold');
             } else { await auth.signInWithEmailAndPassword(email, password); UI.showToast('Welcome back!', 'gold'); }
         } catch (error) { UI.showToast(error.message, 'red'); } finally {
             btn.disabled = false; btn.innerHTML = this.isRegisterMode ? '<i class="fas fa-user-plus"></i> REGISTER' : '<i class="fas fa-sign-in-alt"></i> LOGIN';
@@ -572,7 +716,12 @@ const Auth = {
         try {
             const result = await auth.signInWithPopup(provider);
             if (!(await db.collection('users').doc(result.user.uid).get()).exists) {
-                await db.collection('users').doc(result.user.uid).set({ email: result.user.email, wallet: 0, highScore: 0, gamesPlayed: 0, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+                await db.collection('users').doc(result.user.uid).set({ 
+                    email: result.user.email, coins: 100, highScore: 0, gamesPlayed: 0,
+                    inventory: { shield: 2, magnet: 1, double: 1, slow: 1 },
+                    achievements: [], lastDailyReward: null,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp() 
+                });
             }
             UI.showToast('Welcome to Coin Catcher!', 'gold');
         } catch (error) { UI.showToast(error.message, 'red'); } finally {
@@ -588,18 +737,154 @@ const Auth = {
     async loadUserData() {
         try {
             const doc = await db.collection('users').doc(this.user.uid).get();
-            Storage.data = doc.exists ? doc.data() : await db.collection('users').doc(this.user.uid).set({ email: this.user.email, wallet: 0, highScore: 0, gamesPlayed: 0, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(() => ({ wallet: 0, highScore: 0, gamesPlayed: 0 }));
-            UI.updateDisplays();
+            if (doc.exists) {
+                Storage.data = doc.data();
+                if (!Storage.data.inventory) Storage.data.inventory = { shield: 0, magnet: 0, double: 0, slow: 0 };
+                if (!Storage.data.achievements) Storage.data.achievements = [];
+                UI.updateDisplays();
+            }
         } catch (error) { console.error('Load user data error:', error); }
     },
     async saveUserData() {
-        try { await db.collection('users').doc(this.user.uid).set({ wallet: Storage.data.wallet, highScore: Storage.data.highScore, gamesPlayed: Storage.data.gamesPlayed }, { merge: true }); } 
+        try { await db.collection('users').doc(this.user.uid).set(Storage.data, { merge: true }); } 
         catch (error) { console.error('Save user data error:', error); }
     },
     logout() { auth.signOut(); UI.closeSidebar(); UI.showScreen('auth-screen'); }
 };
 
-const Storage = { data: { wallet: 0.00, highScore: 0, gamesPlayed: 0 }, async save() { if (Auth.user) await Auth.saveUserData(); } };
+const Storage = { 
+    data: { coins: 0, highScore: 0, gamesPlayed: 0, inventory: { shield: 0, magnet: 0, double: 0, slow: 0 }, achievements: [], lastDailyReward: null },
+    async save() { if (Auth.user) await Auth.saveUserData(); }
+};
+
+const Shop = {
+    items: {
+        powerups: [
+            { id: 'shield', name: 'Shield', icon: 'fa-shield-alt', desc: 'Block 1 bomb', price: 30, color: '#00d2d3' },
+            { id: 'magnet', name: 'Magnet', icon: 'fa-magnet', desc: 'Attract coins 10s', price: 50, color: '#ff6b9d' },
+            { id: 'double', name: 'Double Points', icon: 'fa-star', desc: '2x points 15s', price: 75, color: '#ffd93d' },
+            { id: 'slow', name: 'Slow Motion', icon: 'fa-clock', desc: 'Slow items 10s', price: 40, color: '#6c5ce7' }
+        ],
+        skins: [
+            { id: 'skin_gold', name: 'Gold Skin', icon: 'fa-crown', desc: 'Golden player', price: 500, color: '#ffd700' },
+            { id: 'skin_rainbow', name: 'Rainbow', icon: 'fa-rainbow', desc: 'Rainbow effect', price: 1000, color: '#ff00ff' }
+        ],
+        themes: [
+            { id: 'theme_space', name: 'Space', icon: 'fa-rocket', desc: 'Space background', price: 300, color: '#6c5ce7' },
+            { id: 'theme_ocean', name: 'Ocean', icon: 'fa-water', desc: 'Ocean theme', price: 300, color: '#00d2d3' }
+        ]
+    },
+    
+    currentTab: 'powerups',
+    
+    showTab(tab) {
+        this.currentTab = tab;
+        document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        this.renderShop();
+    },
+    
+    renderShop() {
+        const grid = document.getElementById('shop-grid');
+        grid.innerHTML = '';
+        const items = this.items[this.currentTab];
+        
+        items.forEach(item => {
+            const owned = this.currentTab !== 'powerups' && Storage.data.inventory[item.id];
+            const div = document.createElement('div');
+            div.className = `shop-item ${owned ? 'owned' : ''}`;
+            div.innerHTML = `
+                <div class="shop-item-icon" style="color: ${item.color};"><i class="fas ${item.icon}"></i></div>
+                <div class="shop-item-name">${item.name}</div>
+                <div class="shop-item-desc">${item.desc}</div>
+                <div class="shop-item-price">
+                    <i class="fas fa-coins"></i> ${owned ? 'Owned' : item.price}
+                </div>
+            `;
+            if (!owned) {
+                div.onclick = () => this.buy(item);
+            }
+            grid.appendChild(div);
+        });
+    },
+    
+    buy(item) {
+        if (Storage.data.coins >= item.price) {
+            Storage.data.coins -= item.price;
+            if (this.currentTab === 'powerups') {
+                Storage.data.inventory[item.id] = (Storage.data.inventory[item.id] || 0) + 1;
+            } else {
+                Storage.data.inventory[item.id] = true;
+            }
+            Storage.save();
+            UI.updateDisplays();
+            this.renderShop();
+            UI.showToast(`Purchased ${item.name}!`, 'green');
+        } else {
+            UI.showToast('Not enough coins!', 'red');
+        }
+    },
+    
+    async claimDailyReward() {
+        const lastClaim = Storage.data.lastDailyReward;
+        const now = new Date();
+        
+        if (lastClaim) {
+            const lastDate = new Date(lastClaim.toDate());
+            const hoursDiff = (now - lastDate) / (1000 * 60 * 60);
+            
+            if (hoursDiff < 24) {
+                const hoursLeft = Math.ceil(24 - hoursDiff);
+                UI.showToast(`Come back in ${hoursLeft} hours!`, 'red');
+                return;
+            }
+        }
+        
+        Storage.data.coins += 50;
+        Storage.data.lastDailyReward = firebase.firestore.Timestamp.now();
+        await Storage.save();
+        UI.updateDisplays();
+        UI.showToast('+50 Daily Reward!', 'gold');
+    }
+};
+
+const Achievements = {
+    list: [
+        { id: 'first_game', name: 'First Steps', icon: 'fa-play', desc: 'Play your first game', check: () => Storage.data.gamesPlayed >= 1 },
+        { id: 'score_100', name: 'Centurion', icon: 'fa-star', desc: 'Score 100 points', check: () => Storage.data.highScore >= 100 },
+        { id: 'score_500', name: 'High Roller', icon: 'fa-trophy', desc: 'Score 500 points', check: () => Storage.data.highScore >= 500 },
+        { id: 'score_1000', name: 'Legend', icon: 'fa-crown', desc: 'Score 1000 points', check: () => Storage.data.highScore >= 1000 },
+        { id: 'games_10', name: 'Dedicated', icon: 'fa-gamepad', desc: 'Play 10 games', check: () => Storage.data.gamesPlayed >= 10 },
+        { id: 'games_50', name: 'Addicted', icon: 'fa-fire', desc: 'Play 50 games', check: () => Storage.data.gamesPlayed >= 50 }
+    ],
+    
+    render() {
+        const grid = document.getElementById('achievements-grid');
+        grid.innerHTML = '';
+        
+        this.list.forEach(achievement => {
+            const unlocked = Storage.data.achievements.includes(achievement.id);
+            const div = document.createElement('div');
+            div.className = `achievement ${unlocked ? 'unlocked' : 'locked'}`;
+            div.innerHTML = `
+                <div class="achievement-icon"><i class="fas ${achievement.icon}"></i></div>
+                <div class="achievement-name">${achievement.name}</div>
+                <div class="achievement-desc">${achievement.desc}</div>
+            `;
+            grid.appendChild(div);
+        });
+    },
+    
+    check() {
+        this.list.forEach(achievement => {
+            if (!Storage.data.achievements.includes(achievement.id) && achievement.check()) {
+                Storage.data.achievements.push(achievement.id);
+                Storage.save();
+                UI.showToast(`Achievement: ${achievement.name}!`, 'gold');
+            }
+        });
+    }
+};
 
 const UI = {
     showScreen(id) {
@@ -607,6 +892,8 @@ const UI = {
         document.getElementById(id).classList.add('active');
         this.updateDisplays();
         if (id === 'leaderboard-screen') Leaderboard.load();
+        if (id === 'shop-screen') Shop.renderShop();
+        if (id === 'achievements-screen') Achievements.render();
         if (id === 'game-screen') {
             setTimeout(() => { Game.resizeCanvas(); Game.updateHUD(); if (!Game.isRunning) { Game.isRunning = true; Game.loop(); } }, 100);
         }
@@ -632,13 +919,20 @@ const UI = {
     },
     
     updateDisplays() {
-        document.getElementById('home-wallet').innerText = Storage.data.wallet.toFixed(2);
+        document.getElementById('home-coins').innerText = Storage.data.coins;
         document.getElementById('home-highscore').innerText = Storage.data.highScore;
         document.getElementById('home-games').innerText = Storage.data.gamesPlayed;
-        document.getElementById('sidebar-wallet').innerText = Storage.data.wallet.toFixed(2);
-        document.getElementById('profile-wallet').innerText = '₹' + Storage.data.wallet.toFixed(2);
+        document.getElementById('sidebar-coins').innerText = Storage.data.coins;
+        document.getElementById('shop-coins').innerText = Storage.data.coins;
+        document.getElementById('profile-coins').innerText = Storage.data.coins;
         document.getElementById('profile-highscore').innerText = Storage.data.highScore;
         document.getElementById('profile-games').innerText = Storage.data.gamesPlayed;
+        
+        document.getElementById('shield-count').innerText = Storage.data.inventory.shield || 0;
+        document.getElementById('magnet-count').innerText = Storage.data.inventory.magnet || 0;
+        document.getElementById('double-count').innerText = Storage.data.inventory.double || 0;
+        document.getElementById('slow-count').innerText = Storage.data.inventory.slow || 0;
+        
         if (Auth.user) {
             const name = Auth.user.displayName || 'Player';
             const initial = name[0].toUpperCase();
@@ -655,7 +949,7 @@ const UI = {
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        toast.innerHTML = `<i class="fas ${type === 'gold' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${msg}</span>`;
+        toast.innerHTML = `<i class="fas ${type === 'gold' ? 'fa-coins' : type === 'green' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${msg}</span>`;
         container.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
     }
@@ -682,7 +976,9 @@ const Leaderboard = {
 const Game = {
     canvas: null, ctx: null, animationId: null, isRunning: false,
     score: 0, lives: 3, level: 1, itemSpeed: 4, comboMultiplier: 1, comboTimer: 0,
-    shakeTime: 0, shakeMagnitude: 0, flashTimer: 0, levelUpTimer: 0,
+    shakeTime: 0, shakeMagnitude: 0, flashTimer: 0, levelUpTimer: 0, coinsEarned: 0,
+    activePowerups: { shield: false, magnet: false, double: false, slow: false },
+    powerupTimers: { magnet: 0, double: 0, slow: 0 },
     player: { x: 0, y: 0, width: 60, height: 18, speed: 8 }, items: [], particles: [], stars: [], keys: {}, touchX: null,
     
     init() {
@@ -697,8 +993,9 @@ const Game = {
     resizeCanvas() {
         const canvasContainer = document.getElementById('game-screen');
         const hud = document.getElementById('game-hud');
+        const powerupsBar = document.querySelector('.powerups-bar');
         this.canvas.width = canvasContainer.clientWidth;
-        this.canvas.height = canvasContainer.clientHeight - hud.offsetHeight;
+        this.canvas.height = canvasContainer.clientHeight - hud.offsetHeight - powerupsBar.offsetHeight;
         this.player.x = this.canvas.width / 2 - this.player.width / 2;
         this.player.y = this.canvas.height - 60;
         this.stars.forEach(s => { s.x = Math.random() * this.canvas.width; s.y = Math.random() * this.canvas.height; });
@@ -707,9 +1004,37 @@ const Game = {
     start() {
         UI.showScreen('game-screen');
         this.score = 0; this.lives = 3; this.level = 1; this.itemSpeed = 4; this.comboMultiplier = 1; this.comboTimer = 0;
-        this.items = []; this.particles = []; this.shakeTime = 0; this.flashTimer = 0; this.levelUpTimer = 0;
+        this.items = []; this.particles = []; this.shakeTime = 0; this.flashTimer = 0; this.levelUpTimer = 0; this.coinsEarned = 0;
+        this.activePowerups = { shield: false, magnet: false, double: false, slow: false };
+        this.powerupTimers = { magnet: 0, double: 0, slow: 0 };
         document.getElementById('level-display').innerHTML = '<i class="fas fa-star"></i> LVL 1';
+        this.updatePowerupButtons();
         setTimeout(() => { this.resizeCanvas(); this.updateHUD(); this.isRunning = true; if (this.animationId) cancelAnimationFrame(this.animationId); this.loop(); }, 150);
+    },
+    
+    activatePowerup(type) {
+        if (Storage.data.inventory[type] > 0 && !this.activePowerups[type]) {
+            Storage.data.inventory[type]--;
+            this.activePowerups[type] = true;
+            
+            if (type === 'magnet') this.powerupTimers.magnet = 600;
+            if (type === 'double') this.powerupTimers.double = 900;
+            if (type === 'slow') this.powerupTimers.slow = 600;
+            
+            Storage.save();
+            UI.updateDisplays();
+            this.updatePowerupButtons();
+            UI.showToast(`${type.charAt(0).toUpperCase() + type.slice(1)} activated!`, 'green');
+        }
+    },
+    
+    updatePowerupButtons() {
+        ['shield', 'magnet', 'double', 'slow'].forEach(type => {
+            const btn = document.getElementById(`${type}-btn`);
+            const count = Storage.data.inventory[type] || 0;
+            btn.classList.toggle('disabled', count === 0 && !this.activePowerups[type]);
+            btn.classList.toggle('active', this.activePowerups[type]);
+        });
     },
     
     loop() { if (!this.isRunning) return; this.update(); this.draw(); this.animationId = requestAnimationFrame(() => this.loop()); },
@@ -719,9 +1044,22 @@ const Game = {
         if (this.keys['ArrowRight'] && this.player.x < this.canvas.width - this.player.width) this.player.x += this.player.speed;
         if (this.touchX !== null) this.player.x = this.touchX - this.player.width / 2;
         this.player.x = Math.max(0, Math.min(this.canvas.width - this.player.width, this.player.x));
-        this.stars.forEach(s => { s.y += s.speed + (this.itemSpeed * 0.2); if (s.y > this.canvas.height) { s.y = 0; s.x = Math.random() * this.canvas.width; } });
+        
+        const speedMult = this.activePowerups.slow ? 0.5 : 1;
+        this.stars.forEach(s => { s.y += (s.speed + (this.itemSpeed * 0.2)) * speedMult; if (s.y > this.canvas.height) { s.y = 0; s.x = Math.random() * this.canvas.width; } });
+        
         if (this.comboTimer > 0) { this.comboTimer--; if (this.comboTimer === 0) this.comboMultiplier = 1; }
         if (this.levelUpTimer > 0) this.levelUpTimer--; if (this.shakeTime > 0) this.shakeTime--; if (this.flashTimer > 0) this.flashTimer--;
+        
+        ['magnet', 'double', 'slow'].forEach(type => {
+            if (this.powerupTimers[type] > 0) {
+                this.powerupTimers[type]--;
+                if (this.powerupTimers[type] === 0) {
+                    this.activePowerups[type] = false;
+                    this.updatePowerupButtons();
+                }
+            }
+        });
         
         const newLevel = Math.floor(this.score / 500) + 1;
         if (newLevel > this.level) {
@@ -736,14 +1074,38 @@ const Game = {
         }
         
         for (let i = this.items.length - 1; i >= 0; i--) {
-            const item = this.items[i]; item.y += this.itemSpeed; item.pulse += 0.1;
+            const item = this.items[i]; 
+            item.y += this.itemSpeed * speedMult; 
+            item.pulse += 0.1;
+            
+            if (this.activePowerups.magnet && !item.isBomb) {
+                const dx = (this.player.x + this.player.width / 2) - (item.x + 12);
+                const dy = (this.player.y + this.player.height / 2) - (item.y + 12);
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 200) {
+                    item.x += (dx / dist) * 3;
+                    item.y += (dy / dist) * 3;
+                }
+            }
+            
             if (item.y + item.height >= this.player.y && item.x + item.width >= this.player.x && item.x <= this.player.x + this.player.width) {
                 if (item.isBomb) {
-                    this.lives--; this.createParticles(item.x + 12, item.y + 12, '#ff4757', 25);
-                    this.shakeMagnitude = 15; this.shakeTime = 20; this.flashTimer = 15;
-                    if (this.lives <= 0) { this.gameOver(); return; }
+                    if (this.activePowerups.shield) {
+                        this.activePowerups.shield = false;
+                        this.updatePowerupButtons();
+                        this.createParticles(item.x + 12, item.y + 12, '#00d2d3', 20);
+                        UI.showToast('Shield blocked!', 'green');
+                    } else {
+                        this.lives--; this.createParticles(item.x + 12, item.y + 12, '#ff4757', 25);
+                        this.shakeMagnitude = 15; this.shakeTime = 20; this.flashTimer = 15;
+                        if (this.lives <= 0) { this.gameOver(); return; }
+                    }
                 } else {
-                    const points = 10 * this.comboMultiplier; this.score += points; Storage.data.wallet += (0.10 * this.comboMultiplier);
+                    const points = 10 * this.comboMultiplier * (this.activePowerups.double ? 2 : 1);
+                    const coins = 1 * this.comboMultiplier * (this.activePowerups.double ? 2 : 1);
+                    this.score += points; 
+                    this.coinsEarned += coins;
+                    Storage.data.coins += coins;
                     this.createParticles(item.x + 12, item.y + 12, '#ffd93d', 15);
                     this.comboTimer = 60; if (this.comboMultiplier < 5) this.comboMultiplier++;
                 }
@@ -777,6 +1139,13 @@ const Game = {
         ctx.fillStyle = trailGrad; ctx.fillRect(-this.player.width / 2, 0, this.player.width, 30);
         ctx.shadowBlur = 25; ctx.shadowColor = '#00d2d3'; ctx.fillStyle = '#00d2d3';
         ctx.beginPath(); ctx.ellipse(0, 0, this.player.width / 2, this.player.height / 2, 0, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+        
+        if (this.activePowerups.shield) {
+            ctx.strokeStyle = '#00d2d3'; ctx.lineWidth = 3; ctx.globalAlpha = 0.5;
+            ctx.beginPath(); ctx.arc(0, 0, this.player.width / 2 + 10, 0, Math.PI * 2); ctx.stroke();
+            ctx.globalAlpha = 1.0;
+        }
+        
         ctx.fillStyle = '#1a1a2e'; ctx.beginPath(); ctx.ellipse(0, -2, 12, 6, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
         
         this.items.forEach(item => {
@@ -812,8 +1181,13 @@ const Game = {
     
     async gameOver() {
         this.isRunning = false; if (this.animationId) cancelAnimationFrame(this.animationId); this.animationId = null;
-        Storage.data.gamesPlayed++; if (this.score > Storage.data.highScore) Storage.data.highScore = this.score; await Storage.save();
-        document.getElementById('final-score').innerText = this.score.toLocaleString(); document.getElementById('game-over-overlay').classList.add('active');
+        Storage.data.gamesPlayed++; 
+        if (this.score > Storage.data.highScore) Storage.data.highScore = this.score;
+        await Storage.save();
+        Achievements.check();
+        document.getElementById('final-score').innerText = this.score.toLocaleString();
+        document.getElementById('coins-earned').innerText = this.coinsEarned;
+        document.getElementById('game-over-overlay').classList.add('active');
     },
     
     async revive() {
@@ -823,11 +1197,15 @@ const Game = {
             timer--;
             if (timer > 0) btn.innerHTML = '<i class="fas fa-ad"></i> Watching Ad... ' + timer + 's';
             else {
-                clearInterval(interval); Storage.data.wallet += 10.00; await Storage.save();
+                clearInterval(interval); 
+                Storage.data.coins += 50;
+                await Storage.save();
                 this.lives = 1; this.items = []; this.itemSpeed = 4;
                 document.getElementById('game-over-overlay').classList.remove('active');
-                btn.innerHTML = '<i class="fas fa-ad"></i> Watch Ad (+₹10)'; btn.style.background = ''; btn.disabled = false;
-                UI.showToast('Revived! +₹10 Added', 'gold'); this.updateHUD(); this.isRunning = true; this.loop();
+                btn.innerHTML = '<i class="fas fa-ad"></i> Watch Ad (+50 Coins)'; btn.style.background = ''; btn.disabled = false;
+                UI.showToast('+50 Coins from Ad!', 'gold'); 
+                UI.updateDisplays();
+                this.isRunning = true; this.loop();
             }
         }, 1000);
     },
