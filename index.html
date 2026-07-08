@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Coin Catcher Pro - Swami's Empire</title>
+    <title>Coin Catcher Pro - Top Level</title>
     <style>
         body { 
             margin: 0; 
@@ -18,119 +18,211 @@
             overflow: hidden;
             padding: 10px; 
             box-sizing: border-box;
-            user-select: none; /* Prevents text highlighting on mobile */
+            user-select: none;
         }
-        #ui { 
-            margin-bottom: 10px; 
-            font-size: clamp(14px, 4vw, 20px); 
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
-            justify-content: space-between;
+
+        /* --- SCREENS MANAGEMENT --- */
+        .screen { display: none; width: 100%; max-width: 400px; text-align: center; }
+        .screen.active { display: flex; flex-direction: column; align-items: center; }
+
+        /* --- UI ELEMENTS --- */
+        h1 { font-size: 32px; color: #00ffcc; text-shadow: 0 0 20px #00ffcc; margin: 10px 0; letter-spacing: 2px;}
+        h2 { font-size: 24px; color: #ffd700; text-shadow: 0 0 10px #ffd700; margin: 10px 0;}
+        
+        .wallet-display {
+            background: rgba(0,0,0,0.6); padding: 10px 25px; border-radius: 25px;
+            font-size: 20px; color: #00ffcc; border: 1px solid #00ffcc; margin: 15px 0;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
         }
-        #combo {
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff;
-            transition: transform 0.1s;
+
+        .btn {
+            width: 80%; padding: 15px; margin: 10px 0; font-size: 18px; font-weight: bold;
+            border: none; border-radius: 10px; cursor: pointer; transition: all 0.2s;
+            text-transform: uppercase; letter-spacing: 1px;
         }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background: linear-gradient(45deg, #00ffcc, #00b399); color: black; box-shadow: 0 4px 15px rgba(0, 255, 204, 0.4); }
+        .btn-secondary { background: #222; color: #aaa; border: 1px solid #444; }
+        .btn-gold { background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); }
+
+        /* --- SHOP ITEMS --- */
+        .shop-item {
+            background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 10px;
+            padding: 15px; margin: 10px 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
+        }
+        .shop-item-info { text-align: left; }
+        .shop-item-title { font-size: 18px; font-weight: bold; color: white; }
+        .shop-item-desc { font-size: 12px; color: #888; }
+        .shop-item-price { color: #ffd700; font-weight: bold; }
+
+        /* --- GAME CANVAS --- */
+        #game-ui { margin-bottom: 10px; font-size: 18px; font-weight: bold; width: 100%; max-width: 400px; display: flex; justify-content: space-between; }
         canvas { 
-            background: #050505; 
-            border: 2px solid #00ffcc; 
-            border-radius: 15px; 
-            box-shadow: 0 0 40px rgba(0, 255, 204, 0.3), inset 0 0 20px rgba(0,0,0,0.8);
-            max-width: 100%;
-            max-height: 75vh; 
-            touch-action: none; 
+            background: #050505; border: 2px solid #00ffcc; border-radius: 15px; 
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.3); max-width: 100%; max-height: 70vh; touch-action: none; 
         }
-        #wallet {
-            margin-top: 15px;
-            background: rgba(0,0,0,0.7);
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-size: clamp(14px, 3.5vw, 18px);
-            color: #00ffcc;
-            border: 1px solid rgba(0, 255, 204, 0.5);
-            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.2);
-            font-weight: bold;
+
+        /* --- OVERLAYS --- */
+        .overlay {
+            display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(5, 10, 15, 0.95); padding: 30px; border-radius: 20px; text-align: center;
+            border: 2px solid #00ffcc; box-shadow: 0 0 50px rgba(0, 255, 204, 0.5); z-index: 100;
+            width: 85%; max-width: 320px; backdrop-filter: blur(10px);
         }
-        #ad-overlay {
-            display: none; 
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(5, 10, 15, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            border: 2px solid #00ffcc;
-            box-shadow: 0 0 50px rgba(0, 255, 204, 0.5);
-            z-index: 100;
-            width: 85%;
-            max-width: 320px;
-            backdrop-filter: blur(10px);
-        }
-        #ad-overlay button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        #ad-overlay button:active { transform: scale(0.95); }
-        #revive-btn { background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); }
-        #restart-btn { background: #222; color: #aaa; border: 1px solid #444; }
+        .overlay.active { display: block; }
     </style>
 </head>
 <body>
 
-    <div id="ui">
-        <div>SCORE: <span id="score" style="color: gold;">0</span></div>
-        <div id="combo">COMBO: x1</div>
-        <div>LIVES: <span id="lives" style="color: #ff4444;">3</span></div>
+    <!-- 1. START SCREEN -->
+    <div id="start-screen" class="screen active">
+        <h1>COIN CATCHER</h1>
+        <p style="color: #888;">Top Level Edition</p>
+        <div class="wallet-display">WALLET: ₹<span id="menu-wallet">0.00</span></div>
+        <p style="color: #aaa; font-size: 14px;">HIGH SCORE: <span id="high-score" style="color: gold;">0</span></p>
+        <button class="btn btn-primary" onclick="startGame()">▶ PLAY GAME</button>
+        <button class="btn btn-gold" onclick="showScreen('shop-screen')">🛒 UPGRADE SHOP</button>
     </div>
-    
-    <canvas id="game" width="400" height="600"></canvas>
-    
-    <div id="wallet">WALLET: ₹<span id="balance">0.00</span></div>
 
-    <div id="ad-overlay">
-        <h2 style="color: #ff4444; margin: 0; text-shadow: 0 0 10px red;">CRASHED!</h2>
-        <p style="font-size: 18px; margin: 10px 0; color: #ccc;">Final Score: <span id="final-score" style="color: gold; font-weight: bold;">0</span></p>
-        <button id="revive-btn">▶ WATCH AD TO REVIVE (+₹10)</button>
-        <button id="restart-btn">RESTART</button>
+    <!-- 2. SHOP SCREEN -->
+    <div id="shop-screen" class="screen">
+        <h2>UPGRADE SHOP</h2>
+        <div class="wallet-display">BALANCE: ₹<span id="shop-wallet">0.00</span></div>
+        
+        <div class="shop-item">
+            <div class="shop-item-info">
+                <div class="shop-item-title">🛡️ SHIELD</div>
+                <div class="shop-item-desc">Survive 1 bomb hit.</div>
+            </div>
+            <button class="btn btn-primary" style="width: auto; padding: 10px 20px; margin:0;" onclick="buyItem('shield', 50)">₹50</button>
+        </div>
+
+        <div class="shop-item">
+            <div class="shop-item-info">
+                <div class="shop-item-title">🧲 MAGNET</div>
+                <div class="shop-item-desc">Attract coins for 10s.</div>
+            </div>
+            <button class="btn btn-primary" style="width: auto; padding: 10px 20px; margin:0;" onclick="buyItem('magnet', 100)">₹100</button>
+        </div>
+
+        <button class="btn btn-secondary" onclick="showScreen('start-screen')" style="margin-top: 20px;">← BACK TO MENU</button>
+    </div>
+
+    <!-- 3. GAME SCREEN -->
+    <div id="game-screen" class="screen">
+        <div id="game-ui">
+            <div>SCORE: <span id="score" style="color: gold;">0</span></div>
+            <div id="powerup-status" style="color: #ff00ff;"></div>
+            <div>LIVES: <span id="lives" style="color: #ff4444;">3</span></div>
+        </div>
+        <canvas id="game" width="400" height="600"></canvas>
+    </div>
+
+    <!-- 4. GAME OVER OVERLAY -->
+    <div id="game-over-overlay" class="overlay">
+        <h2 style="color: #ff4444; text-shadow: 0 0 10px red;">CRASHED!</h2>
+        <p style="font-size: 18px; color: #ccc;">Score: <span id="final-score" style="color: gold; font-weight: bold;">0</span></p>
+        <button class="btn btn-gold" id="revive-btn">▶ WATCH AD (+₹10)</button>
+        <button class="btn btn-secondary" onclick="goHome()">🏠 HOME</button>
     </div>
 
     <script>
-        // --- SETUP ---
+        // --- CORE VARIABLES & PERSISTENCE ---
         const canvas = document.getElementById('game');
         const ctx = canvas.getContext('2d');
+        
+        let wallet = parseFloat(localStorage.getItem('wallet')) || 0.00;
+        let highScore = parseInt(localStorage.getItem('highScore')) || 0;
+        
         let score = 0, lives = 3, gameOver = false, itemSpeed = 4;
-        let walletBalance = 0.00;
-        let isWatchingAd = false, adTimer = 5;
         let comboMultiplier = 1, comboTimer = 0;
         let shakeTime = 0, shakeMagnitude = 0;
+        
+        // Power-ups
+        let hasShield = false, hasMagnet = false;
+        let magnetTimer = 0;
 
         const player = { x: 175, y: 550, width: 50, height: 15, speed: 7 };
         let keys = {};
-        let items = [];
-        let particles = [];
+        let items = [], particles = [];
+
+        // --- AUDIO ENGINE (Zero Budget Sound Effects) ---
+        let audioCtx;
+        function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        function playSound(freq, type, duration) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type; osc.frequency.value = freq;
+            gain.gain.value = 0.1;
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
+        }
+
+        // --- UI MANAGEMENT ---
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            updateWalletDisplays();
+        }
+
+        function updateWalletDisplays() {
+            document.getElementById('menu-wallet').innerText = wallet.toFixed(2);
+            document.getElementById('shop-wallet').innerText = wallet.toFixed(2);
+            document.getElementById('high-score').innerText = highScore;
+        }
+
+        function saveData() {
+            localStorage.setItem('wallet', wallet);
+            localStorage.setItem('highScore', highScore);
+        }
+
+        // --- SHOP LOGIC ---
+        function buyItem(type, cost) {
+            initAudio();
+            if (wallet >= cost) {
+                wallet -= cost;
+                if (type === 'shield') hasShield = true;
+                if (type === 'magnet') hasMagnet = true;
+                playSound(800, 'sine', 0.2);
+                saveData();
+                updateWalletDisplays();
+                alert(`Purchased ${type.toUpperCase()}! It will be active in your next game.`);
+            } else {
+                playSound(200, 'square', 0.3);
+                alert("Not enough balance! Watch ads to earn more.");
+            }
+        }
+
+        // --- GAME INIT ---
+        function startGame() {
+            initAudio();
+            showScreen('game-screen');
+            score = 0; lives = 3; gameOver = false; itemSpeed = 4;
+            comboMultiplier = 1; comboTimer = 0;
+            items = []; particles = [];
+            
+            // Apply powerups
+            magnetTimer = hasMagnet ? 600 : 0; // 10 seconds at 60fps
+            if (hasMagnet) document.getElementById('powerup-status').innerText = '🧲 ACTIVE';
+            else document.getElementById('powerup-status').innerText = hasShield ? '🛡️ READY' : '';
+
+            document.getElementById('score').innerText = score;
+            document.getElementById('lives').innerText = lives;
+            document.getElementById('game-over-overlay').classList.remove('active');
+            requestAnimationFrame(loop);
+        }
+
+        function goHome() {
+            if (score > highScore) highScore = score;
+            saveData();
+            showScreen('start-screen');
+        }
 
         // --- CONTROLS ---
         document.addEventListener('keydown', e => keys[e.key] = true);
         document.addEventListener('keyup', e => keys[e.key] = false);
-
         canvas.addEventListener('touchmove', e => {
             e.preventDefault();
             const touch = e.touches[0];
@@ -138,94 +230,52 @@
             player.x = (touch.clientX - rect.left) * (canvas.width / rect.width) - player.width / 2;
         });
 
-        canvas.addEventListener('click', () => { if (gameOver && !isWatchingAd) resetGame(); });
-        canvas.addEventListener('touchstart', () => { if (gameOver && !isWatchingAd) resetGame(); });
-
-        // --- PARTICLE SYSTEM (The "Juice") ---
+        // --- PARTICLES & JUICE ---
         function createParticles(x, y, color, count) {
             for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 8,
-                    vy: (Math.random() - 0.5) * 8,
-                    life: 1.0,
-                    color: color,
-                    size: Math.random() * 4 + 2
-                });
+                particles.push({ x, y, vx: (Math.random() - 0.5) * 8, vy: (Math.random() - 0.5) * 8, life: 1.0, color, size: Math.random() * 4 + 2 });
             }
         }
 
-        function updateParticles() {
-            for (let i = particles.length - 1; i >= 0; i--) {
-                let p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.2; // Gravity
-                p.life -= 0.03;
-                if (p.life <= 0) particles.splice(i, 1);
-            }
-        }
-
-        function drawParticles() {
-            particles.forEach(p => {
-                ctx.globalAlpha = p.life;
-                ctx.fillStyle = p.color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = p.color;
-                ctx.fillRect(p.x, p.y, p.size, p.size);
-                ctx.shadowBlur = 0;
-                ctx.globalAlpha = 1.0;
-            });
-        }
-
-        // --- GAME LOGIC ---
-        function spawnItem() {
-            if (gameOver) return;
-            const isBomb = Math.random() > 0.75; 
-            items.push({
-                x: Math.random() * (canvas.width - 20),
-                y: -20, width: 20, height: 20,
-                isBomb: isBomb,
-                pulse: 0 // For glowing animation
-            });
-        }
-
-        function resetGame() {
-            score = 0; lives = 3; gameOver = false; itemSpeed = 4;
-            walletBalance = 0.00; comboMultiplier = 1; comboTimer = 0;
-            items = []; particles = [];
-            document.getElementById('score').innerText = score;
-            document.getElementById('lives').innerText = lives;
-            document.getElementById('balance').innerText = walletBalance.toFixed(2);
-            document.getElementById('combo').innerText = 'COMBO: x1';
-            document.getElementById('ad-overlay').style.display = 'none';
-        }
-
-        function triggerShake(magnitude, duration) {
-            shakeMagnitude = magnitude;
-            shakeTime = duration;
-        }
-
+        // --- MAIN GAME LOOP ---
         function update() {
             if (gameOver) return;
 
-            // Player Movement
             if (keys['ArrowLeft'] && player.x > 0) player.x -= player.speed;
             if (keys['ArrowRight'] && player.x < canvas.width - player.width) player.x += player.speed;
 
-            // Combo Timer
-            if (comboTimer > 0) {
-                comboTimer--;
-                if (comboTimer === 0) {
-                    comboMultiplier = 1;
-                    document.getElementById('combo').innerText = 'COMBO: x1';
+            // Magnet Logic
+            if (magnetTimer > 0) {
+                magnetTimer--;
+                if (magnetTimer === 0) {
+                    document.getElementById('powerup-status').innerText = hasShield ? '🛡️ READY' : '';
+                    hasMagnet = false;
                 }
             }
 
-            // Items Logic
+            if (comboTimer > 0) { comboTimer--; if (comboTimer === 0) comboMultiplier = 1; }
+
+            // Spawn Items
+            if (Math.random() < 0.03) { // Spawn rate
+                const isBomb = Math.random() > 0.75; 
+                items.push({ x: Math.random() * (canvas.width - 20), y: -20, width: 20, height: 20, isBomb, pulse: 0 });
+            }
+
+            // Update Items
             for (let i = items.length - 1; i >= 0; i--) {
                 items[i].y += itemSpeed;
                 items[i].pulse += 0.1;
+
+                // Magnet Effect: Pull coins towards player
+                if (!items[i].isBomb && magnetTimer > 0) {
+                    let dx = (player.x + player.width/2) - (items[i].x + 10);
+                    let dy = (player.y) - (items[i].y + 10);
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 200) {
+                        items[i].x += (dx / dist) * 5;
+                        items[i].y += (dy / dist) * 5;
+                    }
+                }
 
                 // Collision
                 if (items[i].y + items[i].height >= player.y &&
@@ -233,62 +283,63 @@
                     items[i].x <= player.x + player.width) {
 
                     if (items[i].isBomb) {
-                        lives--;
-                        createParticles(items[i].x + 10, items[i].y + 10, '#ff0000', 25); // Red explosion
-                        triggerShake(10, 15); // Screen shake!
-                        if (lives <= 0) gameOver = true;
+                        if (hasShield) {
+                            hasShield = false; // Shield breaks
+                            document.getElementById('powerup-status').innerText = '';
+                            createParticles(items[i].x + 10, items[i].y + 10, '#00ffcc', 20);
+                            playSound(400, 'triangle', 0.2);
+                        } else {
+                            lives--;
+                            createParticles(items[i].x + 10, items[i].y + 10, '#ff0000', 25);
+                            shakeMagnitude = 10; shakeTime = 15;
+                            playSound(100, 'sawtooth', 0.4);
+                            if (lives <= 0) { gameOver = true; showGameOver(); }
+                        }
                     } else {
                         let points = 10 * comboMultiplier;
                         score += points;
-                        walletBalance += (0.50 * comboMultiplier);
+                        wallet += (0.10 * comboMultiplier); // Earn 10 paise per coin
+                        createParticles(items[i].x + 10, items[i].y + 10, '#ffd700', 15);
+                        playSound(600 + comboMultiplier*100, 'sine', 0.1);
                         
-                        createParticles(items[i].x + 10, items[i].y + 10, '#ffd700', 15); // Gold explosion
-                        
-                        // Increase Combo
-                        comboTimer = 60; // 1 second at 60fps
+                        comboTimer = 60;
                         if (comboMultiplier < 5) comboMultiplier++;
-                        document.getElementById('combo').innerText = `COMBO: x${comboMultiplier}`;
-                        document.getElementById('combo').style.transform = 'scale(1.2)';
-                        setTimeout(() => document.getElementById('combo').style.transform = 'scale(1)', 100);
-
-                        if (score % 100 === 0) itemSpeed += 0.5; 
+                        if (score % 100 === 0) itemSpeed += 0.2; 
                     }
                     items.splice(i, 1);
                 } 
                 else if (items[i].y > canvas.height) {
                     if (!items[i].isBomb) {
-                        lives--; 
-                        comboMultiplier = 1; // Reset combo on miss
-                        document.getElementById('combo').innerText = 'COMBO: x1';
-                        if (lives <= 0) gameOver = true;
+                        lives--; comboMultiplier = 1;
+                        playSound(150, 'square', 0.2);
+                        if (lives <= 0) { gameOver = true; showGameOver(); }
                     }
                     items.splice(i, 1);
                 }
             }
 
-            updateParticles();
+            // Update Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life -= 0.03;
+                if (p.life <= 0) particles.splice(i, 1);
+            }
 
-            // Update UI
             document.getElementById('score').innerText = score;
             document.getElementById('lives').innerText = lives;
-            document.getElementById('balance').innerText = walletBalance.toFixed(2);
         }
 
         function draw() {
-            ctx.save(); // Save state for screen shake
-
-            // Apply Screen Shake
+            ctx.save();
             if (shakeTime > 0) {
                 ctx.translate(Math.random() * shakeMagnitude - shakeMagnitude/2, Math.random() * shakeMagnitude - shakeMagnitude/2);
                 shakeTime--;
             }
+            ctx.clearRect(-10, -10, canvas.width + 20, canvas.height + 20);
 
-            ctx.clearRect(-10, -10, canvas.width + 20, canvas.height + 20); // Clear with shake offset
-
-            // Draw Player (Neon Hovercraft)
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = '#00ffcc';
-            ctx.fillStyle = '#00ffcc';
+            // Draw Player
+            ctx.shadowBlur = 20; ctx.shadowColor = hasShield ? '#ffd700' : '#00ffcc';
+            ctx.fillStyle = hasShield ? '#ffd700' : '#00ffcc';
             ctx.beginPath();
             ctx.ellipse(player.x + player.width/2, player.y + player.height/2, player.width/2, player.height/2, 0, 0, Math.PI * 2);
             ctx.fill();
@@ -298,80 +349,68 @@
             items.forEach(item => {
                 ctx.shadowBlur = 15 + Math.sin(item.pulse) * 5;
                 if (item.isBomb) {
-                    ctx.shadowColor = '#ff0000';
-                    ctx.fillStyle = '#cc0000';
+                    ctx.shadowColor = '#ff0000'; ctx.fillStyle = '#cc0000';
                     ctx.fillRect(item.x, item.y, item.width, item.height);
-                    ctx.fillStyle = '#ff4444';
-                    ctx.font = 'bold 16px Arial';
-                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#fff'; ctx.font = 'bold 16px Arial'; ctx.textAlign = 'center';
                     ctx.fillText('X', item.x + 10, item.y + 16);
                 } else {
-                    ctx.shadowColor = '#ffd700';
-                    ctx.fillStyle = '#ffd700';
-                    ctx.beginPath();
-                    ctx.arc(item.x + 10, item.y + 10, 12, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.fillStyle = '#b8860b';
-                    ctx.font = 'bold 14px Arial';
-                    ctx.textAlign = 'center';
+                    ctx.shadowColor = '#ffd700'; ctx.fillStyle = '#ffd700';
+                    ctx.beginPath(); ctx.arc(item.x + 10, item.y + 10, 12, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = '#b8860b'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'center';
                     ctx.fillText('₹', item.x + 10, item.y + 15);
                 }
                 ctx.shadowBlur = 0;
             });
 
-            drawParticles();
+            // Draw Particles
+            particles.forEach(p => {
+                ctx.globalAlpha = p.life; ctx.fillStyle = p.color;
+                ctx.fillRect(p.x, p.y, p.size, p.size);
+                ctx.globalAlpha = 1.0;
+            });
 
-            if (gameOver && !isWatchingAd) {
-                document.getElementById('ad-overlay').style.display = 'block';
-                document.getElementById('final-score').innerText = score;
-            }
-
-            ctx.restore(); // Restore state
+            ctx.restore();
         }
 
         function loop() {
             update();
             draw();
-            requestAnimationFrame(loop);
+            if (!gameOver) requestAnimationFrame(loop);
         }
 
-        setInterval(spawnItem, 800);
-        loop();
+        function showGameOver() {
+            if (score > highScore) highScore = score;
+            saveData();
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('game-over-overlay').classList.add('active');
+        }
 
-        // --- AD LOGIC ---
-        const reviveBtn = document.getElementById('revive-btn');
-        const restartBtn = document.getElementById('restart-btn');
-        const overlay = document.getElementById('ad-overlay');
-
-        reviveBtn.addEventListener('click', () => {
-            if (isWatchingAd) return;
-            isWatchingAd = true;
-            adTimer = 5;
-            reviveBtn.innerText = `Watching Ad... ${adTimer}s`;
-            reviveBtn.style.background = '#555';
-
-            const adInterval = setInterval(() => {
-                adTimer--;
-                if (adTimer > 0) {
-                    reviveBtn.innerText = `Watching Ad... ${adTimer}s`;
+        // --- AD REVIVE LOGIC ---
+        document.getElementById('revive-btn').addEventListener('click', () => {
+            let btn = document.getElementById('revive-btn');
+            let timer = 5;
+            btn.innerText = `Watching Ad... ${timer}s`;
+            btn.style.background = '#555';
+            
+            const interval = setInterval(() => {
+                timer--;
+                if (timer > 0) {
+                    btn.innerText = `Watching Ad... ${timer}s`;
                 } else {
-                    clearInterval(adInterval);
-                    walletBalance += 10.00; 
-                    lives = 1;
-                    items = [];
-                    gameOver = false;
-                    isWatchingAd = false;
-                    overlay.style.display = 'none';
-                    reviveBtn.innerText = '▶ WATCH AD TO REVIVE (+₹10)';
-                    reviveBtn.style.background = 'linear-gradient(45deg, #ffd700, #ff8c00)';
+                    clearInterval(interval);
+                    wallet += 10.00; // Ad revenue reward
+                    lives = 1; gameOver = false; itemSpeed = 4; items = [];
+                    document.getElementById('game-over-overlay').classList.remove('active');
+                    btn.innerText = '▶ WATCH AD (+₹10)';
+                    btn.style.background = 'linear-gradient(45deg, #ffd700, #ff8c00)';
+                    saveData();
+                    requestAnimationFrame(loop);
                 }
             }, 1000);
         });
 
-        restartBtn.addEventListener('click', () => {
-            resetGame();
-            isWatchingAd = false;
-        });
+        // Initial UI update
+        updateWalletDisplays();
     </script>
 </body>
 </html>
